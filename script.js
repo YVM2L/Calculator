@@ -13,6 +13,10 @@ let operator = ""; // знак
 let secondOperand = ""; // второе число
 
 function calculate() {
+  if (firstOperand === "" || operator === "" || secondOperand === "") { // если хотя бы чего-то не хватает то покажи 0
+    updateDisplay("0");
+    return;
+  }
   const a = parseFloat(firstOperand);
   const b = parseFloat(secondOperand);
   let result;
@@ -47,7 +51,8 @@ buttons.forEach((button) => {
     if (!isNaN(value)) {
       if (!operator) {
         // вводим первое число
-        if (firstOperand === "0" && !firstOperand.includes(".")) { //если первое число 0, то при вводе второго после 0 будет стоять точка
+        if (firstOperand === "0" && !firstOperand.includes(".")) {
+          //если первое число 0, то при вводе второго после 0 будет стоять точка
           firstOperand = "0." + value;
         } else {
           firstOperand += value;
@@ -55,7 +60,8 @@ buttons.forEach((button) => {
         updateDisplay(firstOperand);
       } else {
         // вводим второе число
-        if (secondOperand === "0" && !secondOperand.includes(".")) { //если первое число 0, то при вводе второго числа после 0 будет стоять точка
+        if (secondOperand === "0" && !secondOperand.includes(".")) {
+          //если первое число 0, то при вводе второго числа после 0 будет стоять точка
           secondOperand = "0." + value;
         } else {
           secondOperand += value;
@@ -63,7 +69,11 @@ buttons.forEach((button) => {
         updateDisplay(secondOperand);
       }
     } else if (value === "=") {
-      calculate(); //если = , то вызывается функция calculate
+      if (firstOperand !== "" && operator !== "" && secondOperand !== "") {
+        calculate();
+      } else {
+        updateDisplay(firstOperand || "0"); // чтоб не появлялся пустой экран при нажатии =
+      }
     } else if (value === "C") {
       firstOperand = "";
       secondOperand = "";
