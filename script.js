@@ -46,12 +46,20 @@ buttons.forEach((button) => {
 
     if (!isNaN(value)) {
       if (!operator) {
-        // первое число
-        firstOperand += value;
+        // вводим первое число
+        if (firstOperand === "0" && !firstOperand.includes(".")) { //если первое число 0, то при вводе второго после 0 будет стоять точка
+          firstOperand = "0." + value;
+        } else {
+          firstOperand += value;
+        }
         updateDisplay(firstOperand);
       } else {
-        // второе число
-        secondOperand += value;
+        // вводим второе число
+        if (secondOperand === "0" && !secondOperand.includes(".")) { //если первое число 0, то при вводе второго числа после 0 будет стоять точка
+          secondOperand = "0." + value;
+        } else {
+          secondOperand += value;
+        }
         updateDisplay(secondOperand);
       }
     } else if (value === "=") {
@@ -88,7 +96,8 @@ buttons.forEach((button) => {
         }
       }
     } else if (["+", "-", "*", "/"].includes(value)) {
-      if (firstOperand && operator && secondOperand) { //есть ли первое число, оператор и второе число
+      if (firstOperand && operator && secondOperand) {
+        //есть ли первое число, оператор и второе число
         calculate(); // вычисляем выражение
       }
       operator = value; // сохраняем новый оператор
