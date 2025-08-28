@@ -114,3 +114,25 @@ buttons.forEach((button) => {
     }
   });
 });
+document.addEventListener("keydown", (event) => {
+  const key = event.key;
+
+  const keyMap = {
+    "Enter": "=",
+    "Backspace": "←",
+    "Escape": "C"
+  };
+
+  const allowedKeys = ["0","1","2","3","4","5","6","7","8","9",".","+","-","*","/","Enter","Backspace","Escape"];
+
+  if (!allowedKeys.includes(key)) return;
+
+  const value = keyMap[key] || key;
+  simulateClick(value);
+});
+function simulateClick(value) {
+  const button = Array.from(buttons).find(btn => btn.textContent === value); //ищем кнопку у который текст совпадает с нужным значением
+  if (button) { // если нашли то вызываем клик
+    button.click();
+  }
+}
