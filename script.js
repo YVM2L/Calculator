@@ -61,6 +61,20 @@ buttons.forEach((button) => {
       secondOperand = "";
       operator = "";
       updateDisplay("0");
+    } else if (value === "←") {
+      if (!operator) {
+        // Удаляем из первого числа
+        firstOperand = firstOperand.slice(0, -1); //удаляем последний символ
+        updateDisplay(firstOperand || "0"); // если в строке пусто, то показываем 0
+      } else if (secondOperand) {
+        // Удаляем из второго числа
+        secondOperand = secondOperand.slice(0, -1);
+        updateDisplay(secondOperand || "0");
+      } else {
+        // Если второе число пустое, удаляем оператор
+        operator = "";
+        updateDisplay(firstOperand || "0");
+      }
     } else if (value === ".") {
       if (!operator) {
         if (!firstOperand.includes(".")) {
