@@ -56,6 +56,11 @@ buttons.forEach((button) => {
       }
     } else if (value === "=") {
       calculate(); //если = , то вызывается функция calculate
+    } else if (value === "C") {
+      firstOperand = "";
+      secondOperand = "";
+      operator = "";
+      updateDisplay("0");
     } else {
       operator = value;
     }
