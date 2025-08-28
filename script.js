@@ -87,8 +87,11 @@ buttons.forEach((button) => {
           updateDisplay(secondOperand);
         }
       }
-    } else {
-      operator = value;
+    } else if (["+", "-", "*", "/"].includes(value)) {
+      if (firstOperand && operator && secondOperand) { //есть ли первое число, оператор и второе число
+        calculate(); // вычисляем выражение
+      }
+      operator = value; // сохраняем новый оператор
     }
   });
 });
