@@ -61,6 +61,18 @@ buttons.forEach((button) => {
       secondOperand = "";
       operator = "";
       updateDisplay("0");
+    } else if (value === ".") {
+      if (!operator) {
+        if (!firstOperand.includes(".")) {
+          firstOperand = firstOperand ? firstOperand + "." : "0."; //если число есть, добавляем . после него; если числа нет, то будет выглядеть как 0.
+          updateDisplay(firstOperand);
+        }
+      } else {
+        if (!secondOperand.includes(".")) {
+          secondOperand = secondOperand ? secondOperand + "." : "0.";
+          updateDisplay(secondOperand);
+        }
+      }
     } else {
       operator = value;
     }
