@@ -13,7 +13,8 @@ let operator = ""; // знак
 let secondOperand = ""; // второе число
 
 function calculate() {
-  if (firstOperand === "" || operator === "" || secondOperand === "") { // если хотя бы чего-то не хватает то покажи 0
+  if (firstOperand === "" || operator === "" || secondOperand === "") {
+    // если хотя бы чего-то не хватает то покажи 0
     updateDisplay("0");
     return;
   }
@@ -118,12 +119,31 @@ document.addEventListener("keydown", (event) => {
   const key = event.key;
 
   const keyMap = {
-    "Enter": "=",
-    "Backspace": "←",
-    "Escape": "C"
+    Enter: "=",
+    Backspace: "←",
+    Escape: "C",
   };
 
-  const allowedKeys = ["0","1","2","3","4","5","6","7","8","9",".","+","-","*","/","Enter","Backspace","Escape"];
+  const allowedKeys = [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    ".",
+    "+",
+    "-",
+    "*",
+    "/",
+    "Enter",
+    "Backspace",
+    "Escape",
+  ];
 
   if (!allowedKeys.includes(key)) return;
 
@@ -131,8 +151,9 @@ document.addEventListener("keydown", (event) => {
   simulateClick(value);
 });
 function simulateClick(value) {
-  const button = Array.from(buttons).find(btn => btn.textContent === value); //ищем кнопку у который текст совпадает с нужным значением
-  if (button) { // если нашли то вызываем клик
+  const button = Array.from(buttons).find((btn) => btn.textContent === value); //ищем кнопку у который текст совпадает с нужным значением
+  if (button) {
+    // если нашли то вызываем клик
     button.click();
   }
 }
