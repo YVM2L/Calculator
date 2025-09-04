@@ -138,12 +138,16 @@ function handleButtonClick(value) {
   // это больше не актуально, меняем на else if (type === "operator") {
   else if (type === "operator") {
     if (firstOperand && operator && secondOperand) {
-      //есть ли первое число, оператор и второе число
+      // есть ли первое число, оператор и второе число
       calculate(); // вычисляем выражение
     }
     operator = value; // сохраняем новый оператор
   }
 }
+// разделил обработку событий и бизнес-логику
+// addEventListener не громоздкий, логика только внутри handleButtonClick(value)
+// добавил определение типа кнопки
+// внутри handleButtonClick заменил value на type
 document.addEventListener("keydown", (event) => {
   const key = event.key;
 
