@@ -67,7 +67,9 @@ function handleButtonClick(value) {
   // тут был addEventListener, пришла замена
   const type = getButtonType(value);
 
-  if (!isNaN(value)) {
+  // if (!isNaN(value)) {
+  // это больше не актуально, меняем на if (type === "number") {
+  if (type === "number") {
     if (!operator) {
       // вводим первое число
       if (firstOperand === "0" && !firstOperand.includes(".")) {
@@ -87,18 +89,24 @@ function handleButtonClick(value) {
       }
       updateDisplay(secondOperand);
     }
-  } else if (value === "=") {
+  } // else if (value === "=") {
+  // это больше не актуально, меняем на else if (type === "equals") {
+  else if (type === "equals") {
     if (firstOperand !== "" && operator !== "" && secondOperand !== "") {
       calculate();
     } else {
       updateDisplay(firstOperand || "0"); // чтоб не появлялся пустой экран при нажатии =
     }
-  } else if (value === "C") {
+  } // else if (value === "C") {
+  // это больше не актуально, меняем на else if (type === "clear") {
+  else if (type === "clear") {
     firstOperand = "";
     secondOperand = "";
     operator = "";
     updateDisplay("0");
-  } else if (value === "←") {
+  } // else if (value === "←") {
+  // это больше не актуально, меняем на else if (type === "backspace") {
+  else if (type === "backspace") {
     if (!operator) {
       // Удаляем из первого числа
       firstOperand = firstOperand.slice(0, -1); // удаляем последний символ
@@ -112,7 +120,9 @@ function handleButtonClick(value) {
       operator = "";
       updateDisplay(firstOperand || "0");
     }
-  } else if (value === ".") {
+  } // else if (value === ".") {
+  // это больше не актуально, меняем на else if (type === "decimal") {
+  else if (type === "decimal") {
     if (!operator) {
       if (!firstOperand.includes(".")) {
         firstOperand = firstOperand ? firstOperand + "." : "0."; //если число есть, добавляем . после него; если числа нет, то будет выглядеть как 0.
@@ -124,7 +134,9 @@ function handleButtonClick(value) {
         updateDisplay(secondOperand);
       }
     }
-  } else if (["+", "-", "*", "/"].includes(value)) {
+  } // else if (["+", "-", "*", "/"].includes(value)) {
+  // это больше не актуально, меняем на else if (type === "operator") {
+  else if (type === "operator") {
     if (firstOperand && operator && secondOperand) {
       //есть ли первое число, оператор и второе число
       calculate(); // вычисляем выражение
