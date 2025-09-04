@@ -51,9 +51,22 @@ buttons.forEach((button) => {
     handleButtonClick(button.textContent);
   });
 });
+function getButtonType(value) {
+  // это определение типа кнопки. обязательно ставим перед function handleButtonClick
+  // внутри function handleButtonClick всё поменяем на ПРИМЕР: value === "=" на type  === "equals"
+  if (!isNaN(value)) return "number";
+  if (value === "C") return "clear";
+  if (value === "=") return "equals";
+  if (value === "←") return "backspace";
+  if (value === ".") return "decimal";
+  if (["+", "-", "*", "/"].includes(value)) return "operator";
+  return "unknown";
+}
 
 function handleButtonClick(value) {
   // тут был addEventListener, пришла замена
+  const type = getButtonType(value);
+
   if (!isNaN(value)) {
     if (!operator) {
       // вводим первое число
