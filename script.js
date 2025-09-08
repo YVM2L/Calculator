@@ -69,15 +69,19 @@ buttons.forEach((button) => {
   });
 });
 function getButtonType(value) {
-  // это определение типа кнопки. обязательно ставим перед function handleButtonClick
-  // внутри function handleButtonClick всё поменяем на ПРИМЕР: value === "=" на type  === "equals"
-  if (!isNaN(value)) return "number";
-  if (value === "C") return "clear";
-  if (value === "=") return "equals";
-  if (value === "←") return "backspace";
-  if (value === ".") return "decimal";
-  if (["+", "-", "*", "/"].includes(value)) return "operator";
-  return "unknown";
+  const typeMap = {
+    // объект-сопоставление
+    "C": "clear", // ключ - значение; При использовании Prettier "C" превращается в C без ковычек
+    "=": "equals",
+    "←": "backspace",
+    ".": "decimal",
+    "+": "operator",
+    "-": "operator",
+    "*": "operator",
+    "/": "operator",
+  };
+
+  return !isNaN(value) ? "number" : typeMap[value] || "unknown";
 }
 
 function appendDigit(operand, value) {
