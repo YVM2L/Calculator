@@ -32,7 +32,7 @@ function calculate() {
   const result = operation(a, b);
   updateDisplay(result);
 
-  firstOperand = result.toString();
+  firstOperand = result.toString(); // результат теперь новое первое число
   secondOperand = "";
   operator = "";
 }
@@ -63,7 +63,7 @@ buttons.forEach((button) => {
 function getButtonType(value) {
   const typeMap = {
     // объект-сопоставление
-    C: "clear", // ключ - значение; При использовании Prettier "C" превращается в C без ковычек
+    "C": "clear", // ключ - значение; При использовании Prettier "C" превращается в C без ковычек
     "=": "equals",
     "←": "backspace",
     ".": "decimal",
