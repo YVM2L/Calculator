@@ -45,6 +45,23 @@ function calculate() {
   operator = ""; // сброс оператора
 }
 
+function handleButtonClick(value) {
+  // обработчик клика
+  const type = getButtonType(value);
+  const handler = actionHandlers[type];
+  if (handler) handler(value);
+}
+
+const actionHandlers = {
+  // диспетчер типа действия
+  number: handleNumberInput, // обработчик ввода цифр
+  equals: handleEquals, //  "="
+  clear: handleClear, // "C"
+  backspace: handleBackspace, // "Backspace"
+  decimal: handleDecimal, // "."
+  operator: handleOperator, // "+, -, *, /"
+};
+
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
     // вынес addEventListener отдельно, теперь логика живет в handleButtonClick
@@ -63,6 +80,97 @@ function getButtonType(value) {
   return "unknown";
 }
 
+function appendDigit(operand, value) {
+  // защита от 000
+  if (operand === "0") {
+    return "0." + value; // если ввод с числа 0, то после него поставится точка
+  }
+  if (operand.startsWith("0.") || operand === "") {
+    return operand + value; // если уже есть "0." или строка пустая - просто добавляем цифру
+  }
+  return operand + value; // в ином случае обычное добавление
+}
+
+function handleNumberInput(value) {
+  if (!operator) {
+    firstOperand = appendDigit(firstOperand, value); // appendDigit добавляет цифру с учётом начального нуля и точки
+    updateDisplay(firstOperand);
+  } else {
+    secondOperand = appendDigit(secondOperand, value);
+    updateDisplay(secondOperand);
+  }
+}
+
+function handleEquals() {
+  // вычисление после нажатия "="
+  if (firstOperand !== "" && operator !== "" && secondOperand !== "") {
+    calculate(); // проверили целостность выражения и посчитали
+  } else {
+    updateDisplay(firstOperand || "0"); // если нет, то выводим 1й операнд либо ноль
+  }
+}
+
+function handleClear() {
+  // полный сброс
+  firstOperand = "";
+  secondOperand = "";
+  operator = "";
+  updateDisplay("0");
+}
+
+function handleBackspace() {
+  // Удаляем последний символ
+  if (!operator) {
+    firstOperand = firstOperand.slice(0, -1); // удаляем последний символ первого операнда
+    updateDisplay(firstOperand || "0"); // ноль если пусто
+    return;
+  }
+
+  if (secondOperand) {
+    secondOperand = secondOperand.slice(0, -1); // аналогино
+    updateDisplay(secondOperand || "0");
+    return;
+  }
+  operator = "";
+  updateDisplay(firstOperand || "0");
+}
+
+function appendDecimal(operand) {
+  // Добавляем точку к операнду
+  return operand ? operand + "." : "0.";
+}
+
+function handleDecimal() {
+  if (!operator) {
+    // Если точка ещё не добавлена в первый операнд — добавляем
+    if (!firstOperand.includes(".")) {
+      firstOperand = appendDecimal(firstOperand);
+      updateDisplay(firstOperand);
+    }
+  } else {
+    // Если точка ещё не добавлена во второй операнд — добавляем
+    if (!secondOperand.includes(".")) {
+      secondOperand = appendDecimal(secondOperand);
+      updateDisplay(secondOperand);
+    }
+  }
+}
+function handleOperator(value) {
+  if (!firstOperand) return;
+
+  if (firstOperand && operator && secondOperand) {
+    calculate(); // вычисляем текущее выражение и устанавливаем новый оператор
+  }
+
+  operator = value;
+}
+
+// Внизу был ранее актуальный код. Начинал фиксить его, казалось логичным пока не стал выносить логику в отдельные функции
+// В нём разделил обработку событий и бизнес-логику
+// addEventListener не громоздкий, логика только внутри handleButtonClick(value)
+// добавил определение типа кнопки, внутри handleButtonClick заменил value на type
+
+/*
 function handleButtonClick(value) {
   // тут был addEventListener, пришла замена
   const type = getButtonType(value);
@@ -144,10 +252,8 @@ function handleButtonClick(value) {
     operator = value; // сохраняем новый оператор
   }
 }
-// разделил обработку событий и бизнес-логику
-// addEventListener не громоздкий, логика только внутри handleButtonClick(value)
-// добавил определение типа кнопки
-// внутри handleButtonClick заменил value на type
+*/
+
 document.addEventListener("keydown", (event) => {
   const key = event.key;
 
