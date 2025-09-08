@@ -12,37 +12,29 @@ let firstOperand = ""; // первое число
 let operator = ""; // знак
 let secondOperand = ""; // второе число
 
+const operations = {
+  "+": (a, b) => a + b,
+  "-": (a, b) => a - b,
+  "*": (a, b) => a * b,
+  "/": (a, b) => (b !== 0 ? a / b : "Ошибка"), // на ноль не делим
+};
+
 function calculate() {
-  if (firstOperand === "" || operator === "" || secondOperand === "") {
-    // если хотя бы чего-то не хватает то покажи 0
-    updateDisplay("0");
+  const a = parseFloat(firstOperand); // преобразуем строку в число
+  const b = parseFloat(secondOperand);
+  const operation = operations[operator];
+
+  if (!operation) {
+    updateDisplay("Ошибка");
     return;
   }
-  const a = parseFloat(firstOperand);
-  const b = parseFloat(secondOperand);
-  let result;
 
-  switch (
-    operator //проверка какой оператор выбран
-  ) {
-    case "+":
-      result = a + b;
-      break;
-    case "-":
-      result = a - b;
-      break;
-    case "*":
-      result = a * b;
-      break;
-    case "/":
-      result = b !== 0 ? a / b : "Ошибка"; // на ноль не делим
-      break;
-  }
-
+  const result = operation(a, b);
   updateDisplay(result);
-  firstOperand = result.toString(); // результат превращается в новое первое число для продолжения новых вычислений
-  secondOperand = ""; // сброс второго числа
-  operator = ""; // сброс оператора
+
+  firstOperand = result.toString();
+  secondOperand = "";
+  operator = "";
 }
 
 function handleButtonClick(value) {
@@ -71,7 +63,7 @@ buttons.forEach((button) => {
 function getButtonType(value) {
   const typeMap = {
     // объект-сопоставление
-    "C": "clear", // ключ - значение; При использовании Prettier "C" превращается в C без ковычек
+    C: "clear", // ключ - значение; При использовании Prettier "C" превращается в C без ковычек
     "=": "equals",
     "←": "backspace",
     ".": "decimal",
